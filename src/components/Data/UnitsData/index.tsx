@@ -1,5 +1,6 @@
 import { Card } from 'antd';
 import {useState, useEffect} from 'react'
+import { api } from '../../../services/api';
 
 interface UnitsDataList {
   id: number;
@@ -11,12 +12,10 @@ export function UnitsData(){
 
   const [units, setUnits] = useState<UnitsDataList[]>([])
 
-  useEffect(() => {
-    fetch('https://my-json-server.typicode.com/tractian/fake-api/units')
-    .then(response => response.json())
-    .then(data => setUnits(data))
 
-    console.log(units)
+  useEffect(() => {
+    api.get('/units')
+    .then(response => setUnits(response.data))
   },[])
 
   return(

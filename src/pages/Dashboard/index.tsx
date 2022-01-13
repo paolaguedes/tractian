@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { api } from '../../services/api';
 
-import {AtivosItens} from './AtivosItens'
+import {AtivosItens} from '../../components/Ativos/AtivosItens'
 
 interface AtivosProps{
   id: number
   sensors: Array<string>;
   model: string
+  status: string
+  healthscore: number
   name: string
   image: string,
   specifications: {
@@ -22,22 +24,23 @@ interface AtivosProps{
     totalUptime: number
     lastUptimeAt: string
   }
+  unitId: number
+  companyId: number
 }
 
-export function Ativos() {
-
+function Dashboard() {
   const [ativos, setAtivos] = useState<AtivosProps[]>([]);
 
   useEffect(() => {
-    api.get('/assets')
+    api.get(`assets`)
       .then(response => setAtivos(response.data))
   }, []);
 
   return (
     <>
     {
-      ativos.map((ativo, index) => (
-      <Link to={`/assets/${ativo.id}`} key={index}>
+      ativos.map(ativo => (
+      <Link to={`/assets/${ativo.id}`}>
       <Card
         key={ativo.id}
         title={ativo.name}
@@ -97,3 +100,5 @@ export function Ativos() {
     </>
   )
 }
+
+export default Dashboard

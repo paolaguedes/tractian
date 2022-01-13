@@ -1,6 +1,6 @@
 import { Layout, Breadcrumb } from 'antd';
 
-import {SideBar} from '../../components/Navigation/SideBar'
+import {SideBar} from '../../components/SideBar'
 
 import { CompaniesData } from '../../components/Data/CompaniesData';
 

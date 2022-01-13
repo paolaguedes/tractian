@@ -1,6 +1,7 @@
 import { Card } from 'antd';
 
 import {useState, useEffect} from 'react'
+import { api } from '../../../services/api';
 
 interface CompaniesList {
   id: number;
@@ -12,10 +13,9 @@ export function CompaniesData(){
   const [companies, setCompanies] = useState<CompaniesList[]>([])
 
   useEffect(() => {
-    fetch('https://my-json-server.typicode.com/tractian/fake-api/companies')
-    .then(response => response.json())
-    .then(data => setCompanies(data))
-  },[])
+    api.get('/companies')
+      .then(response => setCompanies(response.data))
+  }, []);
 
   return(
     <>
