@@ -6,7 +6,7 @@ import { api } from '../../services/api';
 
 import {AtivosItens} from './AtivosItens'
 
-interface AtivosProps{
+export interface AtivosProps{
   id: number
   sensors: Array<string>;
   model: string
@@ -37,7 +37,10 @@ export function Ativos() {
     <>
     {
       ativos.map((ativo, index) => (
-      <Link to={`/assets/${ativo.id}`} key={index}>
+      <Link 
+      to={`/assets/${ativo.id}`} 
+      key={index}
+      >
       <Card
         key={ativo.id}
         title={ativo.name}

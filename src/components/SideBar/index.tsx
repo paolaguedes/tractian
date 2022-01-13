@@ -52,7 +52,7 @@ export function SideBar() {
           </Menu.Item>
 
           <Menu.Item 
-          key="3" 
+          key="4" 
           icon={<PartitionOutlined />} 
           style={{ padding: 10 }}>
             <Link to="/companies">   
