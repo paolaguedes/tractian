@@ -1,6 +1,7 @@
 import { Card, Row, Col, Image, Typography } from 'antd';
 
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import {AtivosItens} from './AtivosItens'
 
@@ -44,6 +45,7 @@ export function Ativos() {
     <>
     {
       ativos.map(ativo => (
+      <Link to={`/assets/${ativo.id}`}>
       <Card
         key={ativo.id}
         title={ativo.name}
@@ -97,6 +99,7 @@ export function Ativos() {
         </Col>
         </Row>
       </Card>
+      </Link>
       ))
     }
     </>
