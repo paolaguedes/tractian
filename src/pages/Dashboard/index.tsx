@@ -5,22 +5,35 @@ import { api } from '../../services/api';
 import { Card, Row, Col, Image } from 'antd';
 
 import {AtivosItens} from '../../components/Ativos/AtivosItens'
-
-import {AtivosProps} from '../../components/Ativos';
+import {AtivosProps} from '../../components/Ativos'
 
 function Dashboard() {
 
   const { pathname } = useLocation()
-
-  const [dash, setDash] = useState<AtivosProps[]>([]);
-
+  
+  const [dash, setDash] = useState<AtivosProps>({
+    id: 0,
+    sensors: [],
+    model: '',
+    name: '',
+    image: '',
+    specifications: {
+      maxTemp: 0,
+      rpm: 0,
+      power: 0
+    },
+    metrics: {
+      totalCollectsUptime: 0,
+      totalUptime: 0,
+      lastUptimeAt: ''
+    }
+  });
+  
   useEffect(() => {
     api.get(`${pathname}`)
       .then(response => setDash(response.data))
-
-  }, []);
-
-
+  });
+  
   return (
     <>
           <Card
