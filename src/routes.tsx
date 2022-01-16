@@ -11,9 +11,10 @@ const Routes = (): JSX.Element => {
     <Switch>
       <Route path="/" exact component={Home}/>
       <Route path="/assets/:id" exact component={Dashboard}/>
-      <Route path="/users" exact component={Users}/>
-      <Route path="/units" exact component={Units}/>
-      <Route path="/companies" exact component={Companies}/>
+      <Route path="/users" component={Users}/>
+      <Route path="/users/:id" exact component={Users}/>
+      <Route path="/units" component={Units}/>
+      <Route path="/companies" component={Companies}/>
       <Route>
         {/* page 404 */}
       </Route>

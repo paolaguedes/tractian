@@ -9,8 +9,10 @@ import {AtivosItens} from './AtivosItens'
 export interface AtivosProps{
   id: number
   sensors: Array<string>;
+  status: 'inAlert' | 'inDowntime' | 'inOperation' 
   model: string
   name: string
+  healthscore: number
   image: string,
   specifications: {
     maxTemp: number
@@ -22,6 +24,7 @@ export interface AtivosProps{
     totalUptime: number
     lastUptimeAt: string
   }
+  unitId: number
 }
 
 export function Ativos() {
@@ -35,6 +38,7 @@ export function Ativos() {
 
   return (
     <>
+
     {
       ativos.map((ativo, index) => (
       <Link 
@@ -97,6 +101,7 @@ export function Ativos() {
       </Link>
       ))
     }
+
     </>
   )
 }

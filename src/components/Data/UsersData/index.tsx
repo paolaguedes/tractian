@@ -3,7 +3,7 @@ import { Card } from 'antd';
 import {useState, useEffect} from 'react'
 import { api } from '../../../services/api';
 
-interface UsersList {
+export interface UsersList {
   id: number;
   email: string;
   name: string;

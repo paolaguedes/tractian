@@ -1,4 +1,6 @@
 import { Typography } from 'antd';
+import { CaretRightOutlined } from '@ant-design/icons';
+
 
 const { Title } = Typography;
 
@@ -14,7 +16,7 @@ export function AtivosItens({title, text}: Props) {
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'space-between',
-      gap: 15,
+      gap: 20,
       marginBottom: 5
     }}        
   >
@@ -22,6 +24,7 @@ export function AtivosItens({title, text}: Props) {
     style={{display: 'inline', marginBottom: 0}} 
     level={5}
     >
+    <CaretRightOutlined />
     {title}
     </Title>  
     {text}
