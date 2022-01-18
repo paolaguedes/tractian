@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { api } from '../../services/api';
 
-import { Card, Form } from 'antd';
+import { Card, Drawer, Form} from 'antd';
+import { EditOutlined } from '@ant-design/icons';
 
 import {Bar} from 'react-chartjs-2'
 
@@ -23,13 +24,14 @@ import LayoutBase from '../../components/LayoutBase'
 import { AtivosProps } from '../../components/Ativos'
 import { CardProgress } from './CardProgress';
 import { useForm, SubmitHandler  } from 'react-hook-form';
+import { AtivosItens } from '../../components/Ativos/AtivosItens';
+import { Button } from '../../components/Button';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, Title, Tooltip, Legend);
 
 function Dashboard() {
 
   const { pathname } = useLocation()
-  let history = useHistory()
 
   const [dash, setDash] = useState<AtivosProps>({
     id: 0,
@@ -53,14 +55,6 @@ function Dashboard() {
   });
 
   const onSubmit: SubmitHandler<AtivosProps> = data => api.put(`${pathname}`, setDash(data))
-  .then(() => {
-    console.log("Deu tudo certo")
-    history.push(`${pathname}`)
-    })
-    .catch(() => {
-        console.log("DEU ERRADO")
-    })
-
 
   useEffect(() => {
     api.get(`${pathname}`)
@@ -73,6 +67,9 @@ function Dashboard() {
 
   const { register, handleSubmit, reset } = useForm<AtivosProps>()
 
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+
+
   return (
     <LayoutBase to="/" path={'Inicial / Ativos / ' + dash.name}>
       <Card
@@ -80,18 +77,43 @@ function Dashboard() {
         title={dash.name}
         bordered
         style={{ margin: '0 10px 10px 0' }}
+        extra={<EditOutlined  onClick={() => setIsDrawerVisible(true)}/>}
       >
+        <Drawer
+          title="Editar ativo"
+          width={'100%'}
+          style={{maxWidth: 500}}
+          onClose={()=>setIsDrawerVisible(false)}
+          visible={isDrawerVisible}
+          bodyStyle={{ paddingBottom: 80 }}
+        >
         <Form
           onFinish={handleSubmit(onSubmit)}
         >
           <Form.Item label="Nome">
-          <input type="text" {...register("name")} />
+          <input 
+          style={{ border: '1px solid #d9d9d9', padding: '5px'}}
+          type="text" {...register("name")} />
           </Form.Item>
           <Form.Item label="Modelo">
-          <input type="text" {...register("model")} />
+          <input 
+          style={{ border: '1px solid #d9d9d9', padding: '5px'}}
+          type="text" 
+          {...register("model")} />
           </Form.Item>
-          <button type="submit" >Enviar</button>
-          </Form>
+          <Form.Item label="Sensor">
+          <input 
+          style={{ border: '1px solid #d9d9d9', padding: '5px'}}
+          type="text" {...register("sensors")} />
+          </Form.Item>
+          <Button
+          onClick={()=>setIsDrawerVisible(false)}
+          text="Alterar"
+          type="submit"
+          />
+        </Form>
+        </Drawer>
+
   
         <CardData 
           sensors={dash.sensors}
@@ -100,7 +122,6 @@ function Dashboard() {
           maxTemp={dash.specifications.maxTemp}
           rpm={dash.specifications.rpm ? dash.specifications.rpm : "null"}
           power={dash.specifications.power ? dash.specifications.power : "null"}
-          lastUptimeAt={dash.metrics.lastUptimeAt.slice(0, -14)}
         />
       </Card>
 
@@ -115,15 +136,17 @@ function Dashboard() {
         height: 350, 
         maxWidth: 500, 
         width: '100%',
+        padding: 0,
       }}>
         <Bar 
+        style={{marginBottom: 6}}
           data={{ 
             labels:[
-            `Total de coleta - ${dash.metrics.totalCollectsUptime}`, 
-            `Total de horas de coleta - ${dash.metrics.totalUptime}`
+            `Qntd. Coletas`, 
+            `Horas Totais`
             ],
             datasets:[{
-              label:'Coletas',
+              label: `Em unidade`,
               data:[
                 `${dash.metrics.totalCollectsUptime}`, 
                 `${dash.metrics.totalUptime}`
@@ -132,12 +155,17 @@ function Dashboard() {
               barThickness: 50
             },
             {
-              label:'Horas',
+              label: `Em horas`,
               data:[],
               backgroundColor: '#36465D'
             },
           ]
           }}
+        />
+        <AtivosItens
+        color=''
+        title="Data da última coleta"
+        text={dash.metrics.lastUptimeAt.slice(0, -14)}
         />
       </Card>
        

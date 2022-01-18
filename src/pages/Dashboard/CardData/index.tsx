@@ -9,7 +9,6 @@ interface Props {
   maxTemp: number
   rpm?: number | string
   power?: number | string
-  lastUptimeAt: string
 }
 
 export function CardData({
@@ -19,7 +18,6 @@ export function CardData({
   maxTemp,
   rpm,
   power,
-  lastUptimeAt
 }: Props) {
   return (
     <>
@@ -64,11 +62,6 @@ export function CardData({
       <AtivosItens
         title="Potência"
         text={power}
-      />
-
-      <AtivosItens
-        title="Última coleta"
-        text={lastUptimeAt}
       />
   </Card>
   </>

@@ -1,7 +1,7 @@
 import { Layout, Breadcrumb } from 'antd';
 import { Link } from 'react-router-dom';
 
-import {SideBar} from '../SideBar'
+import {HeaderMenu} from '../HeaderMenu'
 
 const { Header, Content } = Layout;
 
@@ -16,12 +16,12 @@ function LayoutBase({children, path, to}: Props) {
     return (
       <Layout style={{ minHeight: '100vh' }}>
         
-        <SideBar/>
 
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }} />
+        <HeaderMenu/>
+
           <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
+            <Breadcrumb style={{ margin: '16px 25px' }}>
               <Breadcrumb.Item>
               <Link to={to}>{path}</Link>
               </Breadcrumb.Item>

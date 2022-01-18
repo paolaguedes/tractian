@@ -47,9 +47,12 @@ export function Ativos() {
       >
       <Card
         key={ativo.id}
-        title={ativo.name}
+        title={ativo.status == 'inAlert' ? '! '+ativo.name : ativo.name}
         bordered
-        style={{ margin: '0 10px 10px 0'}}
+        style={{ 
+          margin: '0 10px 10px 0',
+          borderColor: ativo.status == 'inAlert' ? '#9B1113':''
+        }}
       >
         <Row>
         <Image
@@ -64,32 +67,50 @@ export function Ativos() {
           }} 
         >
           <AtivosItens
+            color=''
             title="Sensor"
             text={ativo.sensors}
           />
 
           <AtivosItens
+            color=''
+
             title="Modelo"
             text={ativo.model}
           />
 
           <AtivosItens
+            color=''
+
             title="Rotação"
             text={ativo.specifications.rpm ? ativo.specifications.rpm : "null"}
           />
 
           <AtivosItens
+            color=''
+
             title="Potência"
             text={ativo.specifications.power ? ativo.specifications.power : "null"}
           />
 
           <AtivosItens
+            color=''
+
             title="Temperatura"
             text={ativo.specifications.maxTemp+" °C"}
           />
 
           <AtivosItens
-            title="Último coleta"
+            color={ativo.status == 'inAlert' ? '#9B1113':''}
+
+            title="Saúde"
+            text={ativo.healthscore}
+          />
+
+          <AtivosItens
+            color=''
+
+            title="Última coleta"
             text={new Intl.DateTimeFormat('pt-BR').format(
               new Date(ativo.metrics.lastUptimeAt)
             )}
