@@ -26,11 +26,6 @@ import { useForm, SubmitHandler  } from 'react-hook-form';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, Title, Tooltip, Legend);
 
-interface Form{
-  name: string
-  model: string
-}
-
 function Dashboard() {
 
   const { pathname } = useLocation()
@@ -57,7 +52,7 @@ function Dashboard() {
     unitId: 0
   });
 
-  const onSubmit: SubmitHandler<Form> = data => api.put(`${pathname}`, data)
+  const onSubmit: SubmitHandler<AtivosProps> = data => api.put(`${pathname}`, setDash(data))
   .then(() => {
     console.log("Deu tudo certo")
     history.push(`${pathname}`)
@@ -76,7 +71,7 @@ function Dashboard() {
 
   }, []);
 
-  const { register, handleSubmit, reset } = useForm<Form>()
+  const { register, handleSubmit, reset } = useForm<AtivosProps>()
 
   return (
     <LayoutBase to="/" path={'Inicial / Ativos / ' + dash.name}>
