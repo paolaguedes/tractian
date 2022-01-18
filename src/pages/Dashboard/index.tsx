@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import { api } from '../../services/api';
 
-import { Card, Modal, Input, Form } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { Card, Form } from 'antd';
 
 import {Bar} from 'react-chartjs-2'
 
@@ -23,12 +22,19 @@ import { CardData } from './CardData';
 import LayoutBase from '../../components/LayoutBase'
 import { AtivosProps } from '../../components/Ativos'
 import { CardProgress } from './CardProgress';
+import { useForm, SubmitHandler  } from 'react-hook-form';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, Title, Tooltip, Legend);
+
+interface Form{
+  name: string
+  model: string
+}
 
 function Dashboard() {
 
   const { pathname } = useLocation()
+  let history = useHistory()
 
   const [dash, setDash] = useState<AtivosProps>({
     id: 0,
@@ -51,23 +57,26 @@ function Dashboard() {
     unitId: 0
   });
 
+  const onSubmit: SubmitHandler<Form> = data => api.put(`${pathname}`, data)
+  .then(() => {
+    console.log("Deu tudo certo")
+    history.push(`${pathname}`)
+    })
+    .catch(() => {
+        console.log("DEU ERRADO")
+    })
+
+
   useEffect(() => {
     api.get(`${pathname}`)
       .then(response => {
         setDash(response.data)
-        setName(dash.name)
-        setModel(dash.model)
+        reset(response.data)
       })
-  });
 
-  const [name, setName] = useState('')
-  const [model, setModel] = useState('')
+  }, []);
 
-  const [isOpen, setIsOpen] = useState(false)
-
-  function onEditAtivo() {
-    setIsOpen(true)
-  }
+  const { register, handleSubmit, reset } = useForm<Form>()
 
   return (
     <LayoutBase to="/" path={'Inicial / Ativos / ' + dash.name}>
@@ -76,37 +85,19 @@ function Dashboard() {
         title={dash.name}
         bordered
         style={{ margin: '0 10px 10px 0' }}
-        extra={<EditOutlined onClick={()=> {
-          onEditAtivo()
-        }} style={{fontSize: 18}}/>}
       >
-      <Modal 
-        title="Editar ativo" 
-        okText="Salvar"
-        visible={isOpen}
-        onCancel={() => setIsOpen(false)}
-        onOk={() => setIsOpen(false)}
-      >
-      <Form
-        name="update"
-      >
-        <Form.Item label="Nome">
-        <Input 
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        </Form.Item>
-        <Form.Item label="Modelo">
-        <Input 
-          name="model"
-          value={model}
-          onChange={(e) => setModel(e.target.value)}
-        />
-        </Form.Item>
-        </Form>
-      </Modal>
-
+        <Form
+          onFinish={handleSubmit(onSubmit)}
+        >
+          <Form.Item label="Nome">
+          <input type="text" {...register("name")} />
+          </Form.Item>
+          <Form.Item label="Modelo">
+          <input type="text" {...register("model")} />
+          </Form.Item>
+          <button type="submit" >Enviar</button>
+          </Form>
+  
         <CardData 
           sensors={dash.sensors}
           model={dash.model}
