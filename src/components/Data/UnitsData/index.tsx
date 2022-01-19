@@ -24,8 +24,14 @@ export function UnitsData(){
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const [name, setName] = useState<UnitsDataList[]>([])
+  const [nameForm, setName] = useState('')
 
+  function handleUnitId(name: string){
+    setUnits(prevState => (
+      prevState.filter(post => post.name == name)
+    ))
+    setName(name)
+  }
   return(
     <>
     {
@@ -35,26 +41,27 @@ export function UnitsData(){
         title="Unidade" 
         bordered={false} 
         style={{ width: 300, margin: '0 10px 10px 0'}}
-        extra={<EditOutlined onClick={()=>setIsModalVisible(true)}/>}
-      >
+        extra={<EditOutlined onClick={()=>{
+          setIsModalVisible(true)
+          handleUnitId(unit.name)}}/>}>
       <Modal 
-      title="Basic Modal" 
+      title="Editar unidade" 
       visible={isModalVisible} 
       onOk={()=> setIsModalVisible(false)} 
-      onCancel={()=> setIsModalVisible(false)} 
-      >
+      onCancel={()=> setIsModalVisible(false)}>
         <Form>
           <Form.Item label="Nome">
           <input 
           style={{ border: '1px solid #d9d9d9', padding: '5px'}}
           type="text"
-          value={unit.name}
+          value={nameForm}
           name="name"
+          onChange={e => setName(e.target.value)}
           />
           </Form.Item>
         </Form>
       </Modal>
-        <p>{unit.name}</p>
+        <p>{unit.name == nameForm ? nameForm : unit.name}</p>
       </Card>
       ))
     }
