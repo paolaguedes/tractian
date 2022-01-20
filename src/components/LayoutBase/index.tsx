@@ -14,7 +14,7 @@ interface Props{
 function LayoutBase({children, path, to}: Props) {
 
     return (
-      <Layout style={{ minHeight: '100vh' }}>
+      <Layout style={{ minHeight: '100vh'}}>
         
 
         <Layout className="site-layout">
@@ -28,7 +28,7 @@ function LayoutBase({children, path, to}: Props) {
             </Breadcrumb>
             <div 
               style={{ 
-                padding: 24, 
+                padding: 10, 
                 minHeight: 360, 
                 display: 'flex', 
                 flexWrap: 'wrap',
