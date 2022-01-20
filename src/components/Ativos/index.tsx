@@ -67,49 +67,37 @@ export function Ativos() {
           }} 
         >
           <AtivosItens
-            color=''
             title="Sensor"
             text={ativo.sensors}
           />
 
           <AtivosItens
-            color=''
-
             title="Modelo"
             text={ativo.model}
           />
 
           <AtivosItens
-            color=''
-
             title="Rotação"
             text={ativo.specifications.rpm ? ativo.specifications.rpm : "null"}
           />
 
           <AtivosItens
-            color=''
-
             title="Potência"
             text={ativo.specifications.power ? ativo.specifications.power : "null"}
           />
 
           <AtivosItens
-            color=''
-
             title="Temperatura"
             text={ativo.specifications.maxTemp+" °C"}
           />
 
           <AtivosItens
             color={ativo.status == 'inAlert' ? '#9B1113':''}
-
             title="Saúde"
             text={ativo.healthscore}
           />
 
           <AtivosItens
-            color=''
-
             title="Última coleta"
             text={new Intl.DateTimeFormat('pt-BR').format(
               new Date(ativo.metrics.lastUptimeAt)

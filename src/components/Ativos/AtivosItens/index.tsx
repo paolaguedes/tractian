@@ -7,7 +7,7 @@ const { Title } = Typography;
 interface Props {
   title: string;
   text: any
-  color: string
+  color?: string
 }
 
 export function AtivosItens({title, text, color}: Props) {

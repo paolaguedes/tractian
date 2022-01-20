@@ -26,6 +26,7 @@ import { CardProgress } from './CardProgress';
 import { useForm, SubmitHandler  } from 'react-hook-form';
 import { AtivosItens } from '../../components/Ativos/AtivosItens';
 import { Button } from '../../components/Button';
+import { UnitsDataList } from '../../components/Data/UnitsData';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, BarElement, Title, Tooltip, Legend);
 
@@ -69,6 +70,15 @@ function Dashboard() {
 
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
 
+  const [units, setUnits] = useState<UnitsDataList[]>([])
+
+  useEffect(() => {
+    api.get('/units')
+    .then(response => {
+      setUnits(response.data)
+    })
+  },[])
+
 
   return (
     <LayoutBase to="/" path={'Inicial / Ativos / ' + dash.name}>
@@ -76,7 +86,7 @@ function Dashboard() {
         key={dash.id}
         title={dash.name}
         bordered
-        style={{ margin: '0 10px 10px 0' }}
+        style={{ margin: '0 10px 10px 0', width: '100%', maxWidth: '500px' }}
         extra={<EditOutlined  onClick={() => setIsDrawerVisible(true)}/>}
       >
         <Drawer
@@ -114,7 +124,6 @@ function Dashboard() {
         </Form>
         </Drawer>
 
-  
         <CardData 
           sensors={dash.sensors}
           model={dash.model}
@@ -122,6 +131,7 @@ function Dashboard() {
           maxTemp={dash.specifications.maxTemp}
           rpm={dash.specifications.rpm ? dash.specifications.rpm : "null"}
           power={dash.specifications.power ? dash.specifications.power : "null"}
+          user={units.map( unit => unit.id == dash.unitId ? unit.name : '')}
         />
       </Card>
 

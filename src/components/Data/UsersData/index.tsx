@@ -5,11 +5,12 @@ import {useState, useEffect} from 'react'
 import { api } from '../../../services/api';
 import { Link } from 'react-router-dom';
 import { CompaniesList } from '../CompaniesData';
+import { UnitsDataList } from '../UnitsData';
 export interface UsersList {
   id: number;
   email: string;
   name: string;
-  unityId: number;
+  unitId: number;
   companyId: number;
 }
 
@@ -33,6 +34,15 @@ export function UsersData(){
     })
   },[])
 
+  const [units, setUnits] = useState<UnitsDataList[]>([])
+
+  useEffect(() => {
+    api.get('/units')
+    .then(response => {
+      setUnits(response.data)
+    })
+  },[])
+
   return(
     <>
     {
@@ -46,6 +56,14 @@ export function UsersData(){
       >
         <p>{user.email}</p>
         <p>{companies.map(company => company.name)}</p>
+        {
+          units.map(unit => (
+          <p key={unit.id}>
+            {unit.id == user.unitId ? unit.name : ''}
+          </p>
+          ))
+        }
+       
       </Card>
       ))
     }

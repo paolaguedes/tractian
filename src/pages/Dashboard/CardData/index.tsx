@@ -9,6 +9,7 @@ interface Props {
   maxTemp: number
   rpm?: number | string
   power?: number | string
+  user?: any
 }
 
 export function CardData({
@@ -18,19 +19,22 @@ export function CardData({
   maxTemp,
   rpm,
   power,
+  user
 }: Props) {
   return (
     <>
-    <Row>
+    <Row style={{display: 'flex', gap: 10, justifyContent: 'center'}}>
     <Image
       width={200}
       height={200}
       src={image}
-      style={{ objectFit: 'cover' }}
+      style={{ objectFit: 'cover'}}
     />
     <Col
       style={{
         paddingLeft: 10,
+        maxWidth: '240px',
+        width: '100%'
       }}
     >
       <AtivosItens
@@ -43,10 +47,10 @@ export function CardData({
         text={model}
       />
 
-      {/* <AtivosItens
+      <AtivosItens
         title="Responsável"
-        text={dash.unitId === users.unitId ? users.name : users.name}
-      /> */}
+        text={user}
+      />
     </Col>
     </Row>
     <Card title="Especificações" style={{marginTop: 10}}>
