@@ -17,7 +17,7 @@ export default function UserForm() {
     id: 0,
     email: '',
     name: '',
-    unityId: 0,
+    unitId: 0,
     companyId: 0
   })
 
